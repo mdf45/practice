@@ -195,7 +195,47 @@ namespace Practice
 
     class Cinema
     {
+        List<Data> datas = new List<Data>();
+        public Cinema(string address, string name, DateTime dateTime)
+        {
+            datas.Add(new Data(address, name, dateTime));
+        }
 
+        public string GetFirstCinemaInfo() => datas.First().GetCinemaInfo();
+        public string GetLastCinemaInfo() => datas.Last().GetCinemaInfo();
+        public string GetCinemaInfo(int index) => datas[index].GetCinemaInfo();
+        class Data
+        {
+            public Data(string address, string name, DateTime dateTime)
+            {
+                this.id = _id++;
+                this.address = address;
+                this.name = name;
+                this.dateTime = dateTime;
+            }
+
+            private int id;
+            private string address;
+            private string name;
+            private DateTime dateTime;
+
+            private static int _id = 1;
+
+            public void SetAddres(string value) => address = value;
+            public void SetName(string value) => name = value;
+            public void SetDateTime(DateTime value) => dateTime = value;
+
+            public string GetAddres() => address;
+            public string GetName() => name;
+            public DateTime GetDateTime() => dateTime;
+            public int GetId() => id;
+
+            public string GetCinemaInfo() => 
+                $"Идентификатор фильма: {id}\n" +
+                $"Название фильма: {name}\n" +
+                $"Адрес кинотеатра: {address}\n" +
+                $"Дата и время показа: {dateTime.ToString("d MMMM в HH:mm")}\n";
+        }
     }
 
     class Program
@@ -230,10 +270,11 @@ namespace Practice
                     {
                         isLoop = false;
 
+                        Clear();
+
                         switch (choise)
                         {
                             case 1:
-                                Clear();
                                 int n, m;
                                 int skipN = 3, skipM = 3, skip = 1;
 
@@ -303,7 +344,6 @@ namespace Practice
 
                                 break;
                             case 2:
-                                Clear();
                                 int q;
                                 int skipQ = 3;
 
@@ -336,7 +376,6 @@ namespace Practice
 
                                 break;
                             case 3:
-
                                 Three three = new Three(7);
                                 three.Зацвести();
 
@@ -344,13 +383,33 @@ namespace Practice
 
                                 break;
                             case 4:
-
-
+                                Cinema cinema = new Cinema("Проспект Ленинградский, 60 А", "Восстание тьмы", new DateTime(2020, 12, 20, 15, 20, 0));
+                                Write(cinema.GetFirstCinemaInfo());
 
                                 WriteLine($"\nКонец {choise} задания!\n");
 
                                 break;
                             case 5:
+                                Write("Введите строку: ");
+
+                                string str = ReadLine(), substr = string.Empty, str_temp = string.Empty;
+
+                                for (int i = 0; i < str.Length; i++)
+                                {
+                                    char ch = str[i];
+
+                                    if (!char.IsLetter(ch))
+                                    {
+                                        str_temp += ch;
+                                        if (str_temp.Length > substr.Length) substr = str_temp;
+                                    }
+                                    else
+                                    {
+                                        str_temp = string.Empty;
+                                    }                                 
+                                }
+
+                                WriteLine($"Первая подстрока максимальной длины: {substr}");
 
                                 WriteLine($"\nКонец {choise} задания!\n");
 
